@@ -45,3 +45,4 @@ function Table() {
     </table>
   )
 }
+export default Table

@@ -37,6 +37,10 @@ const findUserByName = (name) => {
   return users['users_list'].filter((user) => user['name'] === name)
 }
 
+const findUserByJob = (job) => {
+  return users['users_list'].filter((user) => user['job'] === job)
+}
+
 const findUserById = (id) =>
   users['users_list'].find((user) => user['id'] === id)
 
@@ -60,6 +64,12 @@ const deleteUserById = (id) => {
   }
   // no user with specified ID was found
   return false
+}
+
+const findUserByNameandJob = (name, job) => {
+  return users['users_list'].filter(
+    (user) => user['name'] === name && user['job'] === job
+  )
 }
 
 app.use(express.json())
@@ -100,12 +110,28 @@ app.get('/', (req, res) => {
 
 app.get('/users', (req, res) => {
   const name = req.query.name
-  if (name != undefined) {
+  const job = req.query.job
+  // if we can't find any specific name and job, send all the users
+  if (name === undefined && job === undefined) {
+    res.send(users)
+  }
+  // found a name but no job
+  else if (name && !job) {
     let result = findUserByName(name)
     result = { users_list: result }
     res.send(result)
-  } else {
-    res.send(users)
+  }
+  // found a job but no name
+  else if (job && !name) {
+    let result = findUserByJob(job)
+    result = { users_list: result }
+    res.send(result)
+  }
+  // found both a name and a job
+  else {
+    let result = findUserByNameandJob(name, job)
+    result = { users_list: result }
+    res.send(result)
   }
 })
 

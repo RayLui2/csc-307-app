@@ -1,5 +1,6 @@
 // backend.js
 import express from 'express'
+import cors from 'cors'
 
 const app = express()
 const port = 8000
@@ -72,6 +73,7 @@ const findUserByNameandJob = (name, job) => {
   )
 }
 
+app.use(cors())
 app.use(express.json())
 
 app.delete('/users/:id', (req, res) => {

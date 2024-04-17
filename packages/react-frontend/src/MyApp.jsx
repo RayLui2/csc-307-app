@@ -7,10 +7,36 @@ function MyApp() {
   const [characters, setCharacters] = useState([])
 
   function removeOneCharacter(index) {
-    const updated = characters.filter((character, i) => {
-      return i !== index
+    // define the character to remove and the ID
+    const character = characters[index]
+    const id = character.id
+
+    // make DELETE request to backend
+    fetch(`http://localhost:8000/users/${id}`, {
+      method: 'DELETE',
     })
-    setCharacters(updated)
+      // based on response status
+      .then((response) => {
+        // if deletion was successful in backend, delete in frontend
+        if (response.status === 204) {
+          // create new array of chars without the one we want to delete
+          const updatedCharacters = characters.filter(
+            (placeholder, i) => i !== index
+          )
+          // set the new state of chars
+          setCharacters(updatedCharacters)
+          // if we get a error code 404
+        } else if (response.status === 404) {
+          throw new Error('User not found')
+          // any other error code
+        } else {
+          throw new Error(`Failed to delete user. Status: ${response.status}`)
+        }
+      })
+      // safety net
+      .catch((error) => {
+        console.error('Error deleting user:', error)
+      })
   }
 
   function postUser(person) {

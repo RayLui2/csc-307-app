@@ -12,9 +12,6 @@ function MyApp() {
     })
     setCharacters(updated)
   }
-  function updateList(person) {
-    setCharacters([...characters, person])
-  }
 
   function postUser(person) {
     const promise = fetch('Http://localhost:8000/users', {
@@ -31,17 +28,20 @@ function MyApp() {
   function updateList(person) {
     postUser(person)
       .then((response) => {
-        // Successful insertion (201 Created)
+        // if response code is good
         if (response.status === 201) {
-          // Update state with the new person
-          setCharacters([...characters, person])
-        }
-        // Handle other status codes if needed
-        else {
-          console.log(`Failed to add user. Status: ${response.status}`)
+          // Parse response body as JSON
+          return response.json()
+        } else {
+          throw new Error(`Failed to add user. Status: ${response.status}`)
         }
       })
-      // our safety net for unexpected errors
+      // addeduser is the response json
+      .then((addedUser) => {
+        // Update state with the newly added user (including the generated id)
+        setCharacters([...characters, addedUser])
+      })
+      // our safety net
       .catch((error) => {
         console.error('Error adding user:', error)
       })

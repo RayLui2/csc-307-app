@@ -100,8 +100,8 @@ app.delete('/users/:id', (req, res) => {
 
 app.post('/users', (req, res) => {
   const userToAdd = req.body
-  addUser(userToAdd)
-  res.status(201).send('Content Created')
+  const newUser = addUser(userToAdd)
+  res.status(201).json(newUser)
 })
 
 app.get('/users/:id', (req, res) => {

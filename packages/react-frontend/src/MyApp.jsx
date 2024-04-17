@@ -9,7 +9,11 @@ function MyApp() {
   function removeOneCharacter(index) {
     // define the character to remove and the ID
     const character = characters[index]
+    // for debugging purposes
+    console.log('Character to remove:', character)
     const id = character.id
+    // for debugging purposes
+    console.log('ID to remove:', id)
 
     // make DELETE request to backend
     fetch(`http://localhost:8000/users/${id}`, {

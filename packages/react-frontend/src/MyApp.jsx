@@ -30,9 +30,20 @@ function MyApp() {
 
   function updateList(person) {
     postUser(person)
-      .then(() => setCharacters([...characters, person]))
+      .then((response) => {
+        // Successful insertion (201 Created)
+        if (response.status === 201) {
+          // Update state with the new person
+          setCharacters([...characters, person])
+        }
+        // Handle other status codes if needed
+        else {
+          console.log(`Failed to add user. Status: ${response.status}`)
+        }
+      })
+      // our safety net for unexpected errors
       .catch((error) => {
-        console.log(error)
+        console.error('Error adding user:', error)
       })
   }
 

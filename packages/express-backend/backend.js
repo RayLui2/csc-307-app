@@ -34,6 +34,12 @@ const users = {
   ],
 }
 
+const generateRandomId = () => {
+  // Generate a random alphanumeric ID
+  const randomId = Math.random().toString(36).substring(3, 9)
+  return randomId
+}
+
 const findUserByName = (name) => {
   return users['users_list'].filter((user) => user['name'] === name)
 }
@@ -46,7 +52,9 @@ const findUserById = (id) =>
   users['users_list'].find((user) => user['id'] === id)
 
 const addUser = (user) => {
-  users['users_list'].push(user)
+  // give the user a random ID with our IDGen func
+  const newUser = { ...user, id: generateRandomId() }
+  users['users_list'].push(newUser)
   return user
 }
 

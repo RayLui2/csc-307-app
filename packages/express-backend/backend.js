@@ -55,7 +55,7 @@ const addUser = (user) => {
   // give the user a random ID with our IDGen func
   const newUser = { ...user, id: generateRandomId() }
   users['users_list'].push(newUser)
-  return user
+  return newUser
 }
 
 const deleteUserById = (id) => {
@@ -90,7 +90,7 @@ app.delete('/users/:id', (req, res) => {
   // if we successfully deleted a user
   if (deleted_user) {
     // this response indicates delete was successful
-    res.status(204).end()
+    res.status(204).send()
   }
   // could not find the ID of the user to delete
   else {

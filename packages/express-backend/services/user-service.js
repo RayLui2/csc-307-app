@@ -19,7 +19,15 @@ function getUsers(name, job) {
   } else if (job && !name) {
     promise = findUserByJob(job)
   }
+  // for name and job
+  else {
+    promise = findUserByNameAndJob(name, job)
+  }
   return promise
+}
+
+function findUserByNameAndJob(name, job) {
+  return userModel.find({ name: name, job: job })
 }
 
 function findUserById(id) {
@@ -40,10 +48,17 @@ function findUserByJob(job) {
   return userModel.find({ job: job })
 }
 
+function DeleteUserById(id) {
+  const promise = userModel.findByIdAndDelete(id)
+  return promise
+}
+
 export default {
   addUser,
   getUsers,
   findUserById,
   findUserByName,
   findUserByJob,
+  findUserByNameAndJob,
+  DeleteUserById,
 }

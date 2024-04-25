@@ -11,7 +11,7 @@ function MyApp() {
     const character = characters[index]
     // for debugging purposes
     console.log('Character to remove:', character)
-    const id = character.id
+    const id = character._id
     // for debugging purposes
     console.log('ID to remove:', id)
 

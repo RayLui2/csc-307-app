@@ -19,7 +19,7 @@ app.use(express.json())
 app.delete('/users/:id', (req, res) => {
   const id = req.params['id']
   userService.DeleteUserById(id).then((deleted_user) => {
-    if (deleted_user) res.status(201).send(deleted_user)
+    if (deleted_user) res.status(204).send()
     else res.status(404).send('Resource not found.')
   })
 })
